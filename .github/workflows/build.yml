@@ -5,7 +5,7 @@ on:
     inputs:
       sdk_version:
         description: "iOS SDK Version"
-        default: "18.0"
+        default: "26.0"
         required: true
         type: string
       decrypted_youtube_url:
@@ -20,7 +20,7 @@ on:
         type: string
       app_name:
         description: "Modify the app name"
-        default: "YouTube"
+        default: "YouTube Plus"
         required: true
         type: string
       commit_id:
@@ -35,12 +35,12 @@ on:
         type: boolean
       catbox_upload:
         description: "Upload iPA to Catbox.moe (URL)"
-        default: true
+        default: false
         required: false
         type: boolean
       create_release:
         description: "Create a draft release (Private)"
-        default: false
+        default: true
         required: false
         type: boolean
       tweak_flex:
@@ -65,7 +65,7 @@ on:
         type: boolean
       tweak_return_youtube_dislikes:
         description: "Inject Return YouTube Dislikes"
-        default: true
+        default: false
         required: false
         type: boolean
       tweak_ytabconfig:
@@ -126,7 +126,7 @@ concurrency:
 jobs:
   build:
     name: Build YTLitePlus
-    runs-on: macos-14
+    runs-on: macos-26
     permissions:
       contents: write
 
@@ -163,8 +163,8 @@ jobs:
         if: steps.SDK.outputs.cache-hit != 'true'
         run: |
           # Only download the specific SDK version
-          git clone -n --depth=1 --filter=tree:0 https://github.com/Balackburn/sdks/
-          cd sdks
+          git clone -n --depth=1 --filter=tree:0 https://github.com/xybp888/iOS-SDKs/
+          cd iOS-SDKs
           git sparse-checkout set --no-cone iPhoneOS${{ inputs.sdk_version }}.sdk
           git checkout
           mv *.sdk $THEOS/sdks
